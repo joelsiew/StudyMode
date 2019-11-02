@@ -20,7 +20,7 @@ def draw_map():
         lat=latitude,
         lng=longitude,
         zoom=15,
-        markers=[(37.4419, -122.1419)]
+        markers=[]
     )
     return render_template('map.html', studymap=studymap)
 
