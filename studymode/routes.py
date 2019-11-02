@@ -1,19 +1,9 @@
 from studymode import app
-from flask import render_template
-from studymode.forms import LoginForm
-
+from flask import url_for, render_template
 
 @app.route('/')
 def home():
     return render_template('home.html')
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    return render_template('login.html', form=form)
-
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    return render_template('register.html')
+@app.route('/map')
+def draw_map():
+    return render_template('map.html')
