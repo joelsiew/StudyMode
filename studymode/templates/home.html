@@ -5,4 +5,14 @@
         <h1>Study Mode</h1>
         <p>Welcome to Study Mode.</p>
     </div>
+
+    <body>
+    {% for post in posts %}
+    <h1>    {{post.title}}  </h1>
+    <p> By {{post.author}} </p>
+    <p> {{post.content}}</p>
+    {% endfor %}
+    </body>
+
+
 {% endblock content %}
