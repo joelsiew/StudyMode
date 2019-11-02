@@ -11,6 +11,7 @@ def home():
 
 @app.route('/map')
 def draw_map():
+
     studymap = Map(
         identifier="study",
         varname="studymap",
