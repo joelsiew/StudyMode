@@ -1,5 +1,6 @@
 from studymode import app
 from flask import url_for, render_template
+from studymode.models import
 
 
 @app.route('/')
