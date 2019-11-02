@@ -4,7 +4,7 @@ from studymode.forms import LoginForm
 
 
 @app.route('/')
-def hello_world():
+def home():
     return render_template('home.html')
 
 
