@@ -10,3 +10,13 @@ def home():
 @app.route('/map')
 def draw_map():
     return render_template('map.html')
+
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
