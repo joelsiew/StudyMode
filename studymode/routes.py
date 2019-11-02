@@ -1,5 +1,5 @@
 from studymode import app
-from flask import url_for, render_template
+from flask import url_for, render_template, redirect
 
 
 @app.route('/')
