@@ -28,4 +28,4 @@ class Event(db.Model):
     end_time = db.Column(db.String, unique=False, nullable=False)
 
     def __repr__(self):
-        return f"Event('{self.class_name}', '{self.latitude}', '{self.longitude}')"
+        return f"Event('{self.class_name}', '{self.latitude}', '{self.longitude}', '{self.id}')"
