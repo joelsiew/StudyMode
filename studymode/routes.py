@@ -9,8 +9,6 @@ from flask_login import login_user, current_user, logout_user, login_required, U
 import geocoder
 import requests
 import json
-import pytz
-from tzlocal import get_localzone
 from datetime import datetime, timezone
 
 @app.route('/')
