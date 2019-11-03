@@ -27,3 +27,8 @@ def register():
 def login():
     form = LoginForm()
     return render_template('login.html', title="Login", form=form)
+
+@app.route('/event')
+def add_event():
+    form = EventForm()
+    return render_template('add_event.html', title="Add Event", form=form)
