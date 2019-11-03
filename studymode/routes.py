@@ -8,8 +8,10 @@ from flask_login import login_user, current_user, logout_user, login_required, U
 
 @app.route('/')
 def home():
-    people = User.query.all()
-    return render_template('home.html', people=people)
+    if current_user.is_authenticated:
+        return render_template('home.html', title='Home')
+    else:
+        return redirect(url_for('register'))
 
 
 @app.route('/map')
