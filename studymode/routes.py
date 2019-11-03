@@ -1,7 +1,7 @@
 from studymode import app
 from flask import url_for, render_template
 from flask_googlemaps import Map, icons
-from flask import url_for, render_template, redirect
+import geocoder
 
 
 @app.route('/')
@@ -11,12 +11,14 @@ def home():
 
 @app.route('/map')
 def draw_map():
+    g = geocoder.ip('me')
+    latitude, longitude = g.latlng[0], g.latlng[1]
     studymap = Map(
         identifier="study",
         varname="studymap",
         style="height:720px;width:1100px;margin:0;",  # hardcoded!
-        lat=37.4419,  # hardcoded!
-        lng=-122.1419,  # hardcoded!
+        lat=latitude,
+        lng=longitude,
         zoom=15,
         markers=[(37.4419, -122.1419)]
     )
