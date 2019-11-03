@@ -72,7 +72,11 @@ def add_event():
         print('validated')
         g = geocoder.ip('me')
         current_latitude, current_longitude = g.latlng[0], g.latlng[1]
-        event = Event(latitude=current_latitude, longitude=current_longitude, class_name=form.course.data, user_id=current_user.id)
+        response = requests.get(
+            "https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
+        json_data = json.loads(response.text)
+        addy = json_data['results'][0]['formatted_address']
+        event = Event(latitude=current_latitude, longitude=current_longitude, class_name=form.course.data, address=addy, user_id=current_user.id)
         db.session.add(event)
         db.session.commit()
         return redirect(url_for('map'))
@@ -83,12 +87,6 @@ def add_event():
 @login_required
 def events():
     events = Event.query.all()
-    response = requests.get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
-    print(response)
-    json_data = json.loads(response.text)
-    print(json_data)
-    print(json_data['results'][0]['formatted_address'])
     return render_template('events.html', title='Events', events=events)
 
 

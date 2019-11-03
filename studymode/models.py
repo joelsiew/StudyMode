@@ -25,6 +25,7 @@ class Event(db.Model):
     latitude = db.Column(db.Float(precision=2), nullable=False)
     class_name = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    address = db.Column(db.String(300), unique=False, nullable=True)
 
     def __repr__(self):
         return f"Event('{self.class_name}', '{self.latitude}', '{self.longitude}')"
