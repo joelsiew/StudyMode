@@ -23,3 +23,6 @@ class Event(db.Model):
     private_event = db.Column(db.Boolean, nullable = False, default = False)
     private_password = db.Column(db.String(20), default='password')
     event_name = db.Column(db.String(20), nullable = False, default='Study session')
+
+    def __repr__(self):
+        return f"Event('{self.event_name}','{self.location}','{self.class_name}','{self.start_time}','{self.end_time}')"
