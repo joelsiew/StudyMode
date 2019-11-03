@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <p>Events going on around you</p>
+        {% for events in events %}
+            {{ events.start_time}} to {{ events.end_time }}
+        {% endfor %}
+    </div>
+{% endblock content %}
