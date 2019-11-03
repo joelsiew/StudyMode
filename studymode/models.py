@@ -25,7 +25,7 @@ class Event(db.Model):
     end_time = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     longitude = db.Column(db.Float(precision=2), nullable=False)
     latitude = db.Column(db.Float(precision=2), nullable=False)
-    class_name = db.Column(db.String, nullable = False)
+    course = db.Column(db.String, nullable = False)
     private_event = db.Column(db.Boolean, nullable = False, default = False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
