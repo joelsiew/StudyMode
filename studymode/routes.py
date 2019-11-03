@@ -15,7 +15,7 @@ def home():
 @app.route('/map')
 def map():
     events = Event.query.all()
-    studymap = draw_map()
+    studymap = draw_map(events)
     return render_template('map.html', studymap=studymap)
 
 
