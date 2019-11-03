@@ -3,7 +3,7 @@ import collections
 from studymode import app, db, bcrypt
 from flask import url_for, render_template, flash, redirect, request, abort
 from studymode.map import draw_map
-from studymode.forms import LoginForm, RegistrationForm, EventForm
+from studymode.forms import LoginForm, RegistrationForm, EventForm, UpdateAccountForm
 from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 import geocoder
@@ -127,38 +127,22 @@ def account_settings():
 def account():
     return render_template('account.html', title='Account')
 
-@app.route("/reset_password", methods=['GET','POST'])
-def reset_password():
-    form = ResetPasswordForm()
+@app.route("/update_account_info", methods=['GET','POST'])
+def update_account_info():
+    form = UpdateAccountForm()
+    if request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
     if form.validate_on_submit():
         temp = form.password.data.encode('utf-8')
         hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
         current_user.password = hashed_pw
-        db.session.commit()
-        flash('Your password has been updated! You can now log in.', 'success')
-        return redirect(url_for('map'))
-    return render_template('reset_account.html', title='Reset Acount Info', form=form)
-
-@app.route("/reset_username", methods=['GET','POST'])
-def reset_username():
-    form = ResetUsernameForm()
-    if form.validate_on_submit():
         current_user.username = form.username.data
-        db.session.commit()
-        flash('Your username has been updated! You can now log in.', 'success')
-        return redirect(url_for('map'))
-    user = User.query.filter_by(username=form.username.data).first()
-    return render_template('reset_username.html', title='Reset Username', form=form)
-
-@app.route("/reset_email", methods=['GET','POST'])
-def reset_email():
-    form = ResetEmailForm()
-    if form.validate_on_submit():
         current_user.email = form.email.data
         db.session.commit()
-        flash('Your email has been updated! You can now log in.', 'success')
+        flash('Your account has been updated! You can now log in.', 'success')
         return redirect(url_for('map'))
-    return render_template('reset_email.html', title='Reset Email', form=form)
+    return render_template('update_account_info.html', title='Update Account Info', form=form)
 
 
 @app.route("/delete_event<event_id>", methods=['POST'])
