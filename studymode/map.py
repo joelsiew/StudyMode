@@ -7,7 +7,6 @@ def draw_map(events):
     g = geocoder.ip('me')
     latitude, longitude = g.latlng[0], g.latlng[1]
     markers_list = make_markers(events)
-
     studymap = Map(
         identifier="study",
         varname="studymap",
