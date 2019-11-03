@@ -62,7 +62,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/event', methods=['GET', 'POST'])
+@app.route('/event',methods=['GET', 'POST'])
 def add_event():
     form = EventForm()
     if form.validate_on_submit():
@@ -73,15 +73,14 @@ def add_event():
 
     return render_template('add_event.html', title="Add Event", form=form)
 
-
 @app.route('/events')
 def events():
     events = Event.query.all()
     return render_template('events.html', title='Events', events=events)
 
-@app.route('/about')
-def about():
-    return render_template('about.html', title='About')
+@app.route('/account_settings')
+def account_settings():
+    return render_template('account_settings.html', title='Account Settings')
 
 @app.route('/account')
 def account():

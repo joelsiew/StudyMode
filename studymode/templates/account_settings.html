@@ -1,10 +1,10 @@
-:q{% extends "layout.html" %}
+{% extends "layout.html" %}
 {% block content %}
     <div class="content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Edit Account Info</legend>
+                <legend class="border-bottom mb-4">Account Settings</legend>
 
                 <div class="form-group">
                     {{ form.email.label(class="form-control-label") }}
