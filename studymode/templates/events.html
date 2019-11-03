@@ -8,15 +8,13 @@
 {% extends 'layout.html' %}
 {% block content %}
     <div class="container">
-        <h1 class="text-center">Events going on around you</h1>
-        {% for test_events in test_events %}
-
-            <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-              <div class="card-header">Local Event</div>
+        {% for events in events %}
+            <div class="card border-primary mb-3" style="max-width: 50rem;">
+              <div class="card-header bg-primary p-4"></div>
               <div class="card-body">
-                <h5 class="card-title">Some Name</h5>
-                <p class="card-text">{{ test_events.start_time }} - {{ test_events.end_time}}
-                    {{ test_events.class_name }}</p>
+                  <h5 class="card-text">Time: {{ events.start_time }} - {{ events.end_time}}</h5>
+                  <h5 class="card-text">Course: {{ events.class_name }}</h5>
+                  <h5 class="card-text">Location: </h5>
               </div>
             </div>
         {% endfor %}
