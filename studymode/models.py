@@ -7,3 +7,5 @@ class Event(db.Model):
     end_time = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     location = db.relationship('Location', backref = 'Place', lazy = True)
     class_name = db.Column(db.String, nullable = False)
+    private_event = db.Column(db.Boolean, nullable = False, default = False)
+    private_password = db.Column()
