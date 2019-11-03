@@ -76,7 +76,12 @@ def add_event():
             "https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
         json_data = json.loads(response.text)
         addy = json_data['results'][0]['formatted_address']
-        event = Event(latitude=current_latitude, longitude=current_longitude, class_name=form.course.data, address=addy, user_id=current_user.id)
+        temp_start = form.start_time_input.data.strftime('%Y-%m-%dT%H:%M')
+        temp_end = form.end_time_input.data.strftime('%Y-%m-%dT%H:%M')
+        print(temp_start)
+        print(temp_end)
+        event = Event(latitude=current_latitude, longitude=current_longitude, class_name=form.course.data,
+                      user_id=current_user.id, start_time=temp_start, end_time=temp_end, address=addy)
         db.session.add(event)
         db.session.commit()
         return redirect(url_for('map'))

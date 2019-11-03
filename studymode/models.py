@@ -26,6 +26,8 @@ class Event(db.Model):
     class_name = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     address = db.Column(db.String(300), unique=False, nullable=True)
+    start_time = db.Column(db.String, unique=False, nullable=False)
+    end_time = db.Column(db.String, unique=False, nullable=False)
 
     def __repr__(self):
         return f"Event('{self.class_name}', '{self.latitude}', '{self.longitude}')"
