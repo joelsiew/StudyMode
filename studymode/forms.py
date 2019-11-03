@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo
+from wtforms_components import TimeField
 
 
 class RegistrationForm(FlaskForm):
@@ -8,7 +9,7 @@ class RegistrationForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=20)])
 
     email = StringField("Email",
-                        validators=[DataRequired(), Length(min=2, max=20)])
+                        validators=[DataRequired(), Length(min=2, max=120)])
 
     password = PasswordField("Password",
                              validators=[DataRequired()])
@@ -21,7 +22,7 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField('Email',
-                           validators=[DataRequired(), Length(min=2, max=20)])
+                           validators=[DataRequired(), Length(min=2, max=120)])
     password = PasswordField('Password',
                              validators=[DataRequired(), Length(min=2, max=20)])
 
@@ -32,7 +33,8 @@ class LoginForm(FlaskForm):
 class EventForm(FlaskForm):
     course = StringField('Course',
                          validators=[DataRequired(), Length(min=1)])
-    address = StringField('Address',)
+    start_time = TimeField('Start Time',)
+    end_time = TimeField('End Time', validators=[DataRequired()])
 
     locked = BooleanField('Private Event', )
 
