@@ -1,11 +1,24 @@
+<style>
+    .card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}
+</style>
 {% extends 'layout.html' %}
-
 {% block content %}
-
     <div class="container">
-        <p>Events going on around you</p>
-        {% for events in events %}
-            {{ events.start_time}} to {{ events.end_time }}
+        <h1 class="text-center">Events going on around you</h1>
+        {% for test_events in test_events %}
+
+            <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+              <div class="card-header">Local Event</div>
+              <div class="card-body">
+                <h5 class="card-title">Some Name</h5>
+                <p class="card-text">{{ test_events.start_time }} - {{ test_events.end_time}}
+                    {{ test_events.class_name }}</p>
+              </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock content %}

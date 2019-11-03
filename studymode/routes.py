@@ -49,7 +49,29 @@ def login():
             flash('try again fam', 'danger')
     return render_template('login.html', title='Log In', form=form)
 
-@app.route('/event')
+@app.route('/add_event')
 def add_event():
     form = EventForm()
     return render_template('add_event.html', title="Add Event", form=form)
+
+@app.route('/events')
+def events():
+    #events = Event.query.all()
+    test_events = [
+        {
+            'start_time': '8:00',
+            'end_time': '10:00',
+            'class_name': 'EE302'
+        },
+        {
+            'start_time': '10:00',
+            'end_time': '12:00',
+            'class_name': 'EE411'
+        },
+        {
+            'start_time': '12:00',
+            'end_time': '2:00',
+            'class_name': 'EE427J'
+        }
+    ]
+    return render_template('events.html', title='Events', test_events=test_events)
