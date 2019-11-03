@@ -1,6 +1,5 @@
-from studymode import app
-from flask import url_for, render_template, flash, redirect
-import geocoder
+from studymode import app, db, bcrypt
+from flask import url_for, render_template, flash, redirect, request
 from studymode.map import draw_map
 from studymode.forms import LoginForm, RegistrationForm, EventForm
 from studymode.models import User, Event
