@@ -28,7 +28,8 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        hashed_pw = bcrypt.generate_password_hash(password=form.password.data).decode('utf-8')
+        temp = form.password.data.encode('utf-8')
+        hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_pw)
         db.session.add(user)
         db.session.commit()
@@ -43,7 +44,9 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
+        print(user.password)
+        print(form.password.data)
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
@@ -51,6 +54,13 @@ def login():
         else:
             flash('try again fam', 'danger')
     return render_template('login.html', title='Log In', form=form)
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
 
 @app.route('/event',methods=['GET', 'POST'])
 def add_event():
@@ -65,22 +75,5 @@ def add_event():
 
 @app.route('/events')
 def events():
-    #events = Event.query.all()
-    test_events = [
-        {
-            'start_time': '8:00',
-            'end_time': '10:00',
-            'class_name': 'EE302'
-        },
-        {
-            'start_time': '10:00',
-            'end_time': '12:00',
-            'class_name': 'EE411'
-        },
-        {
-            'start_time': '12:00',
-            'end_time': '2:00',
-            'class_name': 'EE427J'
-        }
-    ]
-    return render_template('events.html', title='Events', test_events=test_events)
+    events = Event.query.all()
+    return render_template('events.html', title='Events', events=events)

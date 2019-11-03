@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(120), nullable=False)
     events = db.relationship('Event', backref='author', lazy=True)
 
     def __repr__(self):
@@ -30,16 +30,6 @@ class Event(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f"Event('{self.class_name}')"
+        return f"Event('{self.class_name}', '{self.latitude}', '{self.longitude}')"
 
 
-class Location(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    event = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
-    longitude = db.Column(db.Float(), nullable=False)
-    latitude = db.Column(db.Float(), nullable=False)
-    address = db.Column(db.String, nullable=False)
-    zip_code = db.Column(db.Integer, nullable=False)
-
-    def __repr__(self):
-        return f"Event('{self.address}')"
