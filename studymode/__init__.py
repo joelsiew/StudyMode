@@ -8,6 +8,8 @@ app.config['GOOGLEMAPS_KEY'] = "AIzaSyDXtCfWA1EuXPc4geNQTm2NsIb8xllcCac"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 GoogleMaps(app)
 db = SQLAlchemy(app)
+db.create_all()
+
 
 from studymode import routes
 
