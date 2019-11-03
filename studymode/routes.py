@@ -71,16 +71,21 @@ def add_event():
         g = geocoder.ip('me')
         current_latitude, current_longitude = g.latlng[0], g.latlng[1]
         event = Event(start_time=form.start_time, end_time=form.end_time, latitude=current_latitude,
-                      longitude=current_longitude, class_name=form.course.data, user_id=current_user.id)
-
+                      longitude=current_longitude, course=form.course.data, user_id=current_user.id)
+        db.session.add(event)
+        db.session.commit()
     return render_template('add_event.html', title="Add Event", form=form)
 
 
 @app.route('/events')
 def events():
     events = Event.query.all()
-    response = requests.get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
+    lat = 30.282998
+    lng = -97.738470
+    url = 'https://maps.googleapis.com/maps/api/geocode/json?' + 'latlng={},{}&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ'.format(lat,lng)
+
+    response = requests.get(url)
+    # g = response.json['results'][0]['formatted_address']
     print(response)
     json_data = json.loads(response.text)
     print(json_data)
