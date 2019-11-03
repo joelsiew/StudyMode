@@ -5,6 +5,9 @@ from studymode.forms import LoginForm, RegistrationForm, EventForm
 from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 import geocoder
+import requests
+import json
+
 
 
 @app.route('/')
@@ -76,7 +79,14 @@ def add_event():
 @app.route('/events')
 def events():
     events = Event.query.all()
+    response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
+    # g = response.json['results'][0]['formatted_address']
+    print(response)
+    json_data = json.loads(response.text)
+    print(json_data)
+    print(json_data['results'][0]['formatted_address'])
     return render_template('events.html', title='Events', events=events)
+
 
 @app.route('/account_settings')
 def account_settings():
