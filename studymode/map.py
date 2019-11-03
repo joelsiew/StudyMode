@@ -30,3 +30,4 @@ def make_markers(events):
         }
         markers.append(event_details)
     return markers
+    #git changes
