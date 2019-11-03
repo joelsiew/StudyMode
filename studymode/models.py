@@ -33,6 +33,7 @@ class Event(db.Model):
 
 
 class Location(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
     event = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
     longitude = db.Column(db.Float(), nullable=False)
     latitude = db.Column(db.Float(), nullable=False)
