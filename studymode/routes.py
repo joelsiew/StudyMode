@@ -1,7 +1,7 @@
 from studymode import app, db, bcrypt
 from flask import url_for, render_template, redirect, flash
 from studymode.map import draw_map
-from studymode.forms import LoginForm, RegistrationForm
+from studymode.forms import LoginForm, RegistrationForm, EventForm
 from studymode.models import User
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 
@@ -31,8 +31,6 @@ def register():
         flash('Your account has been created!', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Sign Up', form=form)
-
-
 
 @app.route('/login')
 def login():

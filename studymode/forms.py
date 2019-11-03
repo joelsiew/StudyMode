@@ -32,7 +32,7 @@ class LoginForm(FlaskForm):
 class EventForm(FlaskForm):
     course = StringField('Course',
                          validators=[DataRequired(), Length(min=1)])
-    address = StringField('Address', validators=[DataRequired(), Length(min=1)])
+    address = StringField('Address',)
 
     locked = BooleanField('Private Event', )
 
