@@ -1,8 +1,9 @@
 from studymode import app, db, bcrypt
-from flask import url_for, render_template, redirect, flash
+from flask import url_for, render_template, flash, redirect, request
+import geocoder
 from studymode.map import draw_map
-from studymode.forms import LoginForm, RegistrationForm
-from studymode.models import User
+from studymode.forms import LoginForm, RegistrationForm, EventForm
+from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 
 
@@ -14,6 +15,7 @@ def home():
 
 @app.route('/map')
 def map():
+    events = Event.query.all()
     studymap = draw_map()
     return render_template('map.html', studymap=studymap)
 
@@ -33,7 +35,22 @@ def register():
     return render_template('register.html', title='Sign Up', form=form)
 
 
-
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash('try again fam', 'danger')
+    return render_template('login.html', title='Log In', form=form)
+
+@app.route('/event')
+def add_event():
+    form = EventForm()
+    return render_template('add_event.html', title="Add Event", form=form)

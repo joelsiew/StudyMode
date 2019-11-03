@@ -20,7 +20,7 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username',
+    email = StringField('Email',
                            validators=[DataRequired(), Length(min=2, max=20)])
     password = PasswordField('Password',
                              validators=[DataRequired(), Length(min=2, max=20)])
@@ -32,7 +32,7 @@ class LoginForm(FlaskForm):
 class EventForm(FlaskForm):
     course = StringField('Course',
                          validators=[DataRequired(), Length(min=1)])
-    address = StringField('Address', validators=[DataRequired(), Length(min=1)])
+    address = StringField('Address',)
 
     locked = BooleanField('Private Event', )
 
