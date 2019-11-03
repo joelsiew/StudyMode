@@ -3,8 +3,7 @@ import collections
 from studymode import app, db, bcrypt
 from flask import url_for, render_template, flash, redirect, request, abort
 from studymode.map import draw_map
-from studymode.forms import (LoginForm, RegistrationForm, EventForm, ResetEmailForm,
-                             ResetPasswordForm, ResetUsernameForm)
+from studymode.forms import LoginForm, RegistrationForm, EventForm
 from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 import geocoder
@@ -137,8 +136,8 @@ def reset_password():
         current_user.password = hashed_pw
         db.session.commit()
         flash('Your password has been updated! You can now log in.', 'success')
-        return redirect(url_for('login'))
-    return render_template('reset_password.html', title='Reset Password', form=form)
+        return redirect(url_for('map'))
+    return render_template('reset_account.html', title='Reset Acount Info', form=form)
 
 @app.route("/reset_username", methods=['GET','POST'])
 def reset_username():
@@ -147,10 +146,8 @@ def reset_username():
         current_user.username = form.username.data
         db.session.commit()
         flash('Your username has been updated! You can now log in.', 'success')
-        return redirect(url_for('login'))
+        return redirect(url_for('map'))
     user = User.query.filter_by(username=form.username.data).first()
-    if user:
-        flash('This username is taken. Please use a different username')
     return render_template('reset_username.html', title='Reset Username', form=form)
 
 @app.route("/reset_email", methods=['GET','POST'])
@@ -160,10 +157,7 @@ def reset_email():
         current_user.email = form.email.data
         db.session.commit()
         flash('Your email has been updated! You can now log in.', 'success')
-        return redirect(url_for('login'))
-    user = User.query.filter_by(email=form.email.data).first()
-    if user:
-        flash('This email is taken. Please use a different email')
+        return redirect(url_for('map'))
     return render_template('reset_email.html', title='Reset Email', form=form)
 
 
