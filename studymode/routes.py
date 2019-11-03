@@ -1,3 +1,5 @@
+import collections
+
 from studymode import app, db, bcrypt
 from flask import url_for, render_template, flash, redirect, request
 from studymode.map import draw_map
@@ -92,7 +94,14 @@ def add_event():
 @login_required
 def events():
     events = Event.query.all()
-    return render_template('events.html', title='Events', events=events)
+    date = collections.deque()
+    for x in events:
+        date.appendleft("{}-{}-{}".format(x.start_time[5:7], x.start_time[8:10], x.start_time[0:4]))
+
+        x.start_time = "{}".format(x.start_time[12:16])
+        x.end_time = "to {}".format(x.end_time[12:16])
+
+    return render_template('events.html', title='Events', events=events, date=date)
 
 @app.route('/account_settings')
 @login_required
