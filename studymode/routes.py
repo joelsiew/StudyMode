@@ -87,38 +87,32 @@ def account():
 
 @app.route("/reset_password", methods=['GET','POST'])
 def reset_password():
-    if current_user.is_authenticated:
-        form = ResetPasswordForm()
-        if form.validate_on_submit():
-            temp = form.password.data.encode('utf-8')
-            hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
-            User.password = hashed_pw
-            db.session.commit()
-            flash('Your password has been updated! You can now log in.', 'success')
-            return redirect(url_for('login'))
-        return render_template('reset_password.html', title='Reset Password', form=form)
-    return redirect(url_for('home'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        temp = form.password.data.encode('utf-8')
+        hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
+        User.password = hashed_pw
+        db.session.commit()
+        flash('Your password has been updated! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html', title='Reset Password', form=form)
 
 @app.route("/reset_username", methods=['GET','POST'])
 def reset_username():
-    if current_user.is_authenticated:
-        form = ResetUsernameForm()
-        if form.validate_on_submit():
-            User.username = form.username.data()
-            db.session.commit()
-            flash('Your username has been updated! You can now log in.', 'success')
-            return redirect(url_for('login'))
-        return render_template('reset_username.html', title='Reset Username', form=form)
-    return redirect(url_for('login'))
+    form = ResetUsernameForm()
+    if form.validate_on_submit():
+        User.username = form.username.data()
+        db.session.commit()
+        flash('Your username has been updated! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_username.html', title='Reset Username', form=form)
 
 @app.route("/reset_email", methods=['GET','POST'])
 def reset_email():
-    if current_user.is_authenticated:
-        form = ResetEmailForm()
-        if form.validate_on_submit():
-            User.email = form.email.data()
-            db.session.commit()
-            flash('Your email has been updated! You can now log in.', 'success')
-            return redirect(url_for('login'))
-        return render_template('reset_email.html', title='Reset Email', form=form)
-    return redirect(url_for('home'))
+    form = ResetEmailForm()
+    if form.validate_on_submit():
+        User.email = form.email.data()
+        db.session.commit()
+        flash('Your email has been updated! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_email.html', title='Reset Email', form=form)
