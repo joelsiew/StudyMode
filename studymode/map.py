@@ -12,7 +12,7 @@ def draw_map(events):
     studymap = Map(
         identifier="study",
         varname="studymap",
-        style="height:720px;width:1100px;margin:0;",
+        style="height:720px;width:480px;margin:0;",
         lat=latitude,
         lng=longitude,
         zoom=15,
