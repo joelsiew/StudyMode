@@ -5,22 +5,25 @@
         margin-bottom: 0px;
 }
     #events {
+        color: red;
     }
 </style>
 
 {% extends 'layout.html' %}
 {% block content %}
-    <div class="container" id="events">
-        {% for event in events %}
-            <div class="card border-primary mb-3" style="max-width: 50rem;">
-              <div class="card-header bg-primary p-4">
-                  <h5 class="card-text">Course: {{ event.class_name }}</h5>
-              </div>
-              <div class="card-body">
-                  <h5 class="card-text">Time: {{ event.start_time }} - {{ event.end_time}}</h5>
-                  <h5 class="card-text">Address: {{ event.address }}</h5>
-              </div>
-            </div>
-        {% endfor %}
-    </div>
+    <div class="container pl-5 ml-5">
+    {% for event in events %}
+        <div class="card border-primary mb-3" style="max-width: 50rem;">
+          <div class="card-header bg-primary p-4">
+              <h3 class="card-text text-center text-light">{{ event.class_name }}</h3>
+          </div>
+          <div class="card-body">
+              <h5 class="card-text">Date: {{date.pop()}}</h5>
+              <h5 class="card-text">Time: {{ event.start_time }} {{ event.end_time}}</h5>
+              <h5 class="card-text">Address: {{ event.address }}</h5>
+        </div>
+        </div>
+    {% endfor %}
+</div>
+
 {% endblock content %}
