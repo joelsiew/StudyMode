@@ -29,3 +29,6 @@ class Location(db.Model):
     latitude = db.Column(db.Float(min=-90, max=90), nullable=False)
     address = db.Column(db.String, nullable=False)
     zip_code = db.Column(db.Integer(min=00000, max=99999), nullable=False)
+
+    def __repr__(self):
+        return f"Location('{self.longitude}', '{self.latitude}', '{self.address}', '{self.zip_code})"
