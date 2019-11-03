@@ -31,14 +31,5 @@ class LoginForm(FlaskForm):
 
 
 class EventForm(FlaskForm):
-    course = StringField('Course',
-                         validators=[DataRequired(), Length(min=1)])
-    start_time = TimeField('Start Time',)
-    end_time = TimeField('End Time', validators=[DataRequired()])
-
-    locked = BooleanField('Private Event', )
-
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
+    course = StringField('Course', validators=[DataRequired(), Length(min=1)])
     submit = SubmitField('Submit')

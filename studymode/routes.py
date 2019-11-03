@@ -18,6 +18,7 @@ def home():
 
 
 @app.route('/map')
+@login_required
 def map():
     events = Event.query.all()
     studymap = draw_map(events)
@@ -47,8 +48,6 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        print(user.password)
-        print(form.password.data)
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
@@ -59,24 +58,29 @@ def login():
 
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
 
 @app.route('/event', methods=['GET', 'POST'])
+@login_required
 def add_event():
     form = EventForm()
     if form.validate_on_submit():
+        print('validated')
         g = geocoder.ip('me')
         current_latitude, current_longitude = g.latlng[0], g.latlng[1]
-        event = Event(start_time=form.start_time, end_time=form.end_time, latitude=current_latitude,
-                      longitude=current_longitude, class_name=form.course.data, user_id=current_user.id)
-
+        event = Event(latitude=current_latitude, longitude=current_longitude, class_name=form.course.data, user_id=current_user.id)
+        db.session.add(event)
+        db.session.commit()
+        return redirect(url_for('map'))
     return render_template('add_event.html', title="Add Event", form=form)
 
 
 @app.route('/events')
+@login_required
 def events():
     events = Event.query.all()
     response = requests.get(
@@ -89,10 +93,12 @@ def events():
 
 
 @app.route('/account_settings')
+@login_required
 def account_settings():
     return render_template('account_settings.html', title='Account Settings')
 
 
 @app.route('/account')
+@login_required
 def account():
     return render_template('account.html', title='Account')
