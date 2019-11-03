@@ -1,15 +1,17 @@
 import collections
 
 from studymode import app, db, bcrypt
-from flask import url_for, render_template, flash, redirect, request
+from flask import url_for, render_template, flash, redirect, request, abort
 from studymode.map import draw_map
-from studymode.forms import (LoginForm, RegistrationForm, EventForm, UpdateAccountForm)
+from studymode.forms import LoginForm, RegistrationForm, EventForm
 from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 import geocoder
 import requests
 import json
-
+import pytz
+from tzlocal import get_localzone
+from datetime import datetime, timezone
 
 @app.route('/')
 def home():
@@ -66,10 +68,25 @@ def logout():
     return redirect(url_for('home'))
 
 
+def get_dt(yr, mo, day, hr, min):
+    dt = str()
+    h = 12 if hr % 12 == 0 else hr
+    dt += str(yr) + '-' + str(mo) + '-' + str(day)
+    dt += 'T' + str(h) + ':' + str(min)
+    dt_obj = datetime.strptime(dt, '%Y-%m-%dT%H:%M')
+    return dt_obj
+
+
 @app.route('/event', methods=['GET', 'POST'])
 @login_required
 def add_event():
     form = EventForm()
+    if request.method == 'GET':
+        x = datetime.now()
+        dt_obj = get_dt(x.year, x.month, x.day, x.hour, x.minute)
+        form.start_time_input.data = dt_obj
+        form.end_time_input.data = dt_obj
+
     if form.validate_on_submit():
         g = geocoder.ip('me')
         current_latitude, current_longitude = g.latlng[0], g.latlng[1]
@@ -100,25 +117,58 @@ def events():
 
     return render_template('events.html', title='Events', events=events, date=date)
 
-@app.route('/update_account_info', methods=['GET', 'POST'])
+@app.route('/account_settings')
 @login_required
-def update_account_info():
-    form = UpdateAccountForm()
-    if request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
-    if form.validate_on_submit():
-        temp = form.password.data.encode('utf-8')
-        hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
-        current_user.password = hashed_pw
-        current_user.email = form.email.data
-        current_user.username = form.username.data
-        db.session.commit()
-        flash('Your account info has been updated! You can now log in.', 'success')
-        return redirect(url_for('map'))
-    return render_template('update_account_info.html', title='Update Account Info', form=form)
+def account_settings():
+    return render_template('account_settings.html', title='Account Settings')
 
 @app.route('/account')
 @login_required
 def account():
     return render_template('account.html', title='Account')
+
+@app.route("/reset_password", methods=['GET','POST'])
+def reset_password():
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        temp = form.password.data.encode('utf-8')
+        hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
+        current_user.password = hashed_pw
+        db.session.commit()
+        flash('Your password has been updated! You can now log in.', 'success')
+        return redirect(url_for('map'))
+    return render_template('reset_account.html', title='Reset Acount Info', form=form)
+
+@app.route("/reset_username", methods=['GET','POST'])
+def reset_username():
+    form = ResetUsernameForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        db.session.commit()
+        flash('Your username has been updated! You can now log in.', 'success')
+        return redirect(url_for('map'))
+    user = User.query.filter_by(username=form.username.data).first()
+    return render_template('reset_username.html', title='Reset Username', form=form)
+
+@app.route("/reset_email", methods=['GET','POST'])
+def reset_email():
+    form = ResetEmailForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your email has been updated! You can now log in.', 'success')
+        return redirect(url_for('map'))
+    return render_template('reset_email.html', title='Reset Email', form=form)
+
+
+@app.route("/delete_event<event_id>", methods=['POST'])
+@login_required
+def delete_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.author != current_user:
+        abort(403)
+    db.session.delete(event)
+    db.session.commit()
+    flash('Your event has been deleted!', 'success')
+    return redirect(url_for('home'))
+

@@ -7,15 +7,21 @@
     #events {
         color: red;
     }
+
 </style>
 
 {% extends 'layout.html' %}
 {% block content %}
-    <div class="container pl-5 ml-5">
+    <div class="container">
     {% for event in events %}
-        <div class="card border-primary mb-3" style="max-width: 50rem;">
-          <div class="card-header bg-primary p-4">
+        <div class="card border-primary mb-3" style="max-width: 50rem; margin-left:auto; margin-right:auto; margin-bottom:0">
+          <div class="card-header p-4" style="background-color: #313d4b; font-family: 'Roboto Condensed', sans-serif;">
               <h3 class="card-text text-center text-light">{{ event.class_name }}</h3>
+              {% if event.author == current_user %}
+                  <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST">
+                      <input class="btn btn-danger" type="submit" value="Delete">
+                  </form>
+              {% endif %}
           </div>
           <div class="card-body">
               <h5 class="card-text">Date: {{date.pop()}}</h5>
