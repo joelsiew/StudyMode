@@ -91,7 +91,7 @@ def reset_password():
     if form.validate_on_submit():
         temp = form.password.data.encode('utf-8')
         hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
-        User.password = hashed_pw
+        current_user.password = hashed_pw
         db.session.commit()
         flash('Your password has been updated! You can now log in.', 'success')
         return redirect(url_for('login'))
@@ -101,18 +101,27 @@ def reset_password():
 def reset_username():
     form = ResetUsernameForm()
     if form.validate_on_submit():
-        User.username = form.username.data
+        current_user.username = form.username.data
         db.session.commit()
         flash('Your username has been updated! You can now log in.', 'success')
         return redirect(url_for('login'))
+    user = User.query.filter_by(username=form.username.data).first()
+    if user:
+        flash('This username is taken. Please use a different username')
     return render_template('reset_username.html', title='Reset Username', form=form)
 
 @app.route("/reset_email", methods=['GET','POST'])
 def reset_email():
     form = ResetEmailForm()
     if form.validate_on_submit():
-        User.email = form.email.data
+        current_user.email = form.email.data
         db.session.commit()
         flash('Your email has been updated! You can now log in.', 'success')
         return redirect(url_for('login'))
+    user = User.query.filter_by(email=form.email.data).first()
+    if user:
+        flash('This email is taken. Please use a different email')
     return render_template('reset_email.html', title='Reset Email', form=form)
+
+
+
