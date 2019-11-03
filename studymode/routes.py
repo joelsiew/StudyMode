@@ -58,3 +58,25 @@ def add_event():
         event_there = Event.query.filter_by()
 
     return render_template('add_event.html', title="Add Event", form=form)
+
+@app.route('/events')
+def events():
+    #events = Event.query.all()
+    test_events = [
+        {
+            'start_time': '8:00',
+            'end_time': '10:00',
+            'class_name': 'EE302'
+        },
+        {
+            'start_time': '10:00',
+            'end_time': '12:00',
+            'class_name': 'EE411'
+        },
+        {
+            'start_time': '12:00',
+            'end_time': '2:00',
+            'class_name': 'EE427J'
+        }
+    ]
+    return render_template('events.html', title='Events', test_events=test_events)
