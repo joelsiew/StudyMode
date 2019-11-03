@@ -37,28 +37,18 @@ class EventForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class ResetPasswordForm(FlaskForm):
+class ResetAccountForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
     confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Reset Password')
-
-
-class ResetUsernameForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired(), Length(min=2, max=20)])
-    submit = SubmitField('Reset Username')
-
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError('Username already taken')
-
-
-class ResetEmailForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
-    submit = SubmitField('Reset Email')
-
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('Email already taken')
+    submit = SubmitField('Reset Account Info')
 
