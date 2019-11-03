@@ -81,7 +81,6 @@ def events():
     events = Event.query.all()
     response = requests.get(
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
-    # g = response.json['results'][0]['formatted_address']
     print(response)
     json_data = json.loads(response.text)
     print(json_data)

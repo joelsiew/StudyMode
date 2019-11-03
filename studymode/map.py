@@ -27,9 +27,7 @@ def make_markers(events):
     for event in events:
         response = requests.get(
             "https://maps.googleapis.com/maps/api/geocode/json?latlng={},{}&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ".format(event.latitude, event.longitude))
-        #print(response)
         json_data = json.loads(response.text)
-        #print(json_data)
         print(json_data['results'][0]['formatted_address'])
         event_details = {
             'lat': event.latitude,
