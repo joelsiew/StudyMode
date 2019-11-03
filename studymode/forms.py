@@ -1,5 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, BooleanField
+from wtforms.validators import DataRequired, Length, EqualTo, Email
+from wtforms.fields.html5 import DateTimeLocalField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 from wtforms_components import TimeField
 from studymode.models import User
@@ -32,16 +34,9 @@ class LoginForm(FlaskForm):
 
 
 class EventForm(FlaskForm):
-    course = StringField('Course',
-                         validators=[DataRequired(), Length(min=1)])
-    start_time = TimeField('Start Time',)
-    end_time = TimeField('End Time', validators=[DataRequired()])
-
-    locked = BooleanField('Private Event', )
-
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
+    course = StringField('Course', validators=[DataRequired(), Length(min=1)])
+    start_time_input = DateTimeLocalField('Enter Start Time', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
+    end_time_input = DateTimeLocalField('Enter End Time', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class ResetPasswordForm(FlaskForm):

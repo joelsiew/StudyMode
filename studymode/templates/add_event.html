@@ -16,30 +16,16 @@
                     {{ form.course(class="form-control form-control-lg") }}
                 </div>
 
-                <div class="form-group">
-                    {{ form.start_time.label(class="form-control-label") }}
-                    {{ form.start_time(class="form-control form-control-lg") }}
+                 <div class="form-group">
+                    {{ form.start_time_input.label(class="form-control-label") }}
+                    {{ form.start_time_input(class="form-control form-control-lg") }}
                 </div>
 
                 <div class="form-group">
-                    {{ form.end_time.label(class="form-control-label") }}
-                    {{ form.end_time(class="form-control form-control-lg") }}
+                    {{ form.end_time_input.label(class="form-control-label") }}
+                    {{ form.end_time_input(class="form-control form-control-lg") }}
                 </div>
 
-                <div class="form-group">
-                    {{ form.locked.label(class="form-control-label") }}
-                    {{ form.locked(class="form-control form-control-lg") }}
-                </div>
-
-                <div class="form-group">
-                    {{ form.password.label(class="form-control-label") }}
-                    {{ form.password(class="form-control form-control-lg") }}
-                </div>
-
-                <div class="form-group">
-                    {{ form.confirm_password.label(class="form-control-label") }}
-                    {{ form.confirm_password(class="form-control form-control-lg") }}
-                </div>
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}

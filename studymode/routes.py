@@ -6,17 +6,20 @@ from studymode.forms import (LoginForm, RegistrationForm, EventForm, ResetEmailF
 from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 import geocoder
+import requests
+import json
 
 
 @app.route('/')
 def home():
     if current_user.is_authenticated:
-        return render_template('home.html', title='Home')
+        return redirect(url_for('map'))
     else:
-        return redirect(url_for('register'))
+        return render_template('home.html', title='Home')
 
 
 @app.route('/map')
+@login_required
 def map():
     events = Event.query.all()
     studymap = draw_map(events)
@@ -56,32 +59,48 @@ def login():
 
 
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
 
-@app.route('/event',methods=['GET', 'POST'])
+@app.route('/event', methods=['GET', 'POST'])
+@login_required
 def add_event():
     form = EventForm()
     if form.validate_on_submit():
         g = geocoder.ip('me')
         current_latitude, current_longitude = g.latlng[0], g.latlng[1]
-        event = Event(start_time=form.start_time, end_time=form.end_time, latitude=current_latitude,
-                      longitude=current_longitude, course=form.course.data, user_id=current_user.id)
-
+        response = requests.get(
+            "https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
+        json_data = json.loads(response.text)
+        addy = json_data['results'][0]['formatted_address']
+        temp_start = form.start_time_input.data.strftime('%Y-%m-%dT%H:%M')
+        temp_end = form.end_time_input.data.strftime('%Y-%m-%dT%H:%M')
+        print(temp_start)
+        print(temp_end)
+        event = Event(latitude=current_latitude, longitude=current_longitude, class_name=form.course.data,
+                      user_id=current_user.id, start_time=temp_start, end_time=temp_end, address=addy)
+        db.session.add(event)
+        db.session.commit()
+        return redirect(url_for('map'))
     return render_template('add_event.html', title="Add Event", form=form)
 
+
 @app.route('/events')
+@login_required
 def events():
     events = Event.query.all()
     return render_template('events.html', title='Events', events=events)
 
-@app.route('/account_settings', methods=['GET', 'POST'])
+@app.route('/account_settings')
+@login_required
 def account_settings():
     return render_template('account_settings.html', title='Account Settings')
 
 @app.route('/account')
+@login_required
 def account():
     return render_template('account.html', title='Account')
 
