@@ -18,7 +18,7 @@ def map():
     return render_template('map.html', studymap=studymap)
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
