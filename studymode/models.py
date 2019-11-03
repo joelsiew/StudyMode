@@ -21,8 +21,6 @@ class User(db.Model, UserMixin):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    start_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    end_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     longitude = db.Column(db.Float(precision=2), nullable=False)
     latitude = db.Column(db.Float(precision=2), nullable=False)
     class_name = db.Column(db.String, nullable=False)
