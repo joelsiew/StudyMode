@@ -1,5 +1,5 @@
 from studymode import app, db, bcrypt
-from flask import url_for, render_template, redirect, flash
+from flask import url_for, render_template, redirect, flash, request
 from studymode.map import draw_map
 from studymode.forms import LoginForm, RegistrationForm
 from studymode.models import User
@@ -33,7 +33,17 @@ def register():
     return render_template('register.html', title='Sign Up', form=form)
 
 
-
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('home'))
+        else:
+            flash('try again fam', 'danger')
+    return render_template('login.html', title='Log In', form=form)
