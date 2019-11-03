@@ -1,6 +1,10 @@
 <style>
-    #map {
-        color: red;
+
+    #rectangle {
+        position: relative;
+        width: 100%;
+        height: 70%;
+        background-color: #CCC;
     }
 </style>
 
@@ -10,10 +14,13 @@
     <div class="container">
         <h1>Find your friends</h1>
         <p>See where your friends are studying</p>
-        <div id="rectangle">
-            {{studymap.js}}
-            {{studymap.html}}
-        </div>
+    </div>
+    <div class="row mx-auto col-xs-12 col-sm-8 col-md-6 col-lg-3 w-50 p-3">
         <a href='/event' class="btn btn-primary btn-block" role="button">New Study Mode</a>
+    </div>
+
+    <div id="rectangle">
+        {{ studymap.js }}
+        {{ studymap.html }}
     </div>
 {% endblock content %}

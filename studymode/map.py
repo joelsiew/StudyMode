@@ -5,7 +5,6 @@ from flask import render_template
 import requests
 import json
 
-
 def draw_map(events):
     g = geocoder.ip('me')
     latitude, longitude = g.latlng[0], g.latlng[1]
@@ -13,7 +12,7 @@ def draw_map(events):
     studymap = Map(
         identifier="study",
         varname="studymap",
-        style="height:720px;width:1100px;margin:0;",
+        style="height:100%;width:100%;margin:0;",
         lat=latitude,
         lng=longitude,
         zoom=15,
