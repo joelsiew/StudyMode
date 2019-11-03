@@ -6,10 +6,9 @@
 }
 </style>
 
-
 {% extends 'layout.html' %}
 {% block content %}
-    <div class="container text-center max-auto">
+    <div class="container text-center max-auto" style = "font-family: 'Roboto Condensed', sans-serif;">
         <h1 class="pt-3">Study Mode</h1>
         <p class="pt-3">Welcome to Study Mode!</p>
     </div>
@@ -21,6 +20,6 @@
 {#    <div class="container">#}
     <div class="btn-group | mx-auto | text-center | d-flex justify-content-center | mx-md-n5 | w-50 | row-3 | pt-5">
         <div class="col px-md-5"><button class="p-3 btn-default btn-lg btn-block text-uppercase"><a class="text-secondary" href="{{ url_for('register')}}">Register</a></button></div>
-        <div class="col px-md-5"><button class="p-3 btn-default btn-lg btn-block text-uppercase"><a class="text-secondary" href="{{ url_for('login')}}">Login</a></button></div>
+         <div class="col px-md-5"><button class="p-3 btn-default btn-lg btn-block text-uppercase"><a class="text-secondary" href="{{ url_for('login')}}">Log in</a></button></div>
     </div>
 {% endblock content %}
