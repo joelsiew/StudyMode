@@ -16,6 +16,11 @@
         <div class="card border-primary mb-3" style="max-width: 50rem;">
           <div class="card-header bg-primary p-4">
               <h3 class="card-text text-center text-light">{{ event.class_name }}</h3>
+              {% if event.author == current_user %}
+                  <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST">
+                      <input class="btn btn-danger" type="submit" value="Delete">
+                  </form>
+              {% endif %}
           </div>
           <div class="card-body">
               <h5 class="card-text">Date: {{date.pop()}}</h5>
