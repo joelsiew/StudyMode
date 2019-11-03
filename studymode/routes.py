@@ -78,9 +78,9 @@ def events():
     events = Event.query.all()
     return render_template('events.html', title='Events', events=events)
 
-@app.route('/about')
-def about():
-    return render_template('about.html', title='About')
+@app.route('/account_settings')
+def account_settings():
+    return render_template('account_settings.html', title='Account Settings')
 
 @app.route('/account')
 def account():
