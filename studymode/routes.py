@@ -43,7 +43,7 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
@@ -51,6 +51,13 @@ def login():
         else:
             flash('try again fam', 'danger')
     return render_template('login.html', title='Log In', form=form)
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
 
 @app.route('/event',methods=['GET', 'POST'])
 def add_event():
