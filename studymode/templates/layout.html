@@ -14,24 +14,6 @@
             integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
             crossorigin="anonymous"
     />
-    {#    <blockquote class="blockquote text-center">#}
-    {#        <p class="mb-0">#}
-    {#            {% if title %}#}
-    {#                <title>Study Mode - {{ title }}</title>#}
-    {#            {% else %}#}
-    {#                <title>Study Mode</title>#}
-    {#            {% endif %}#}
-    {#        </p>#}
-    {#    </blockquote>#}
-
-<<<<<<< HEAD
-    <style type="text/css">
-        body {
-            background-image: linear-gradient(90deg, #d4fc79 0%, #96e6a1 100%);
-        }
-
-        /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
-    </style>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{{ url_for('home') }}">Study Mode</a>
@@ -70,45 +52,16 @@
                 </li>
             </ul>
         </div>
-=======
+    </nav>
     {% if title %}
     <title>Study Mode - {{ title }}</title>
     {% else %}
     <title>Study Mode</title>
     {% endif %}
   </head>
-  <body>
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Study Mode</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Events</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Account
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Account Settings</a>
-              <a class="dropdown-item" href="#">Log Out</a>
-            <!-- <a class="dropdown-item" href="#">Something else here</a>    -->
-            </div>
-          </li>
-        </ul>
-      </div>
->>>>>>> 2be7dbe031682a595f2cf29a2e4a8d407d86ec61
-    </nav>
-</head>
-
 <body>
+    {{ content }}
+</body>
 {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %}
     <div class="alert alert-{{ category }}">
