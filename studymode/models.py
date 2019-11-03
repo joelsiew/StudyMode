@@ -1,6 +1,5 @@
 from flask_login import UserMixin
 from studymode import db, login_manager, app
-from datetime import datetime
 
 
 @login_manager.user_loader
