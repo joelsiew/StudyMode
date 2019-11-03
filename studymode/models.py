@@ -1,12 +1,11 @@
 from flask_login import UserMixin
-from studymode import db, login_manager
+from studymode import db, login_manager, app
 from datetime import datetime
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
-
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

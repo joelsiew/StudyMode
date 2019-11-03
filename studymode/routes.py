@@ -1,7 +1,8 @@
 from studymode import app, db, bcrypt
 from flask import url_for, render_template, flash, redirect, request
 from studymode.map import draw_map
-from studymode.forms import LoginForm, RegistrationForm, EventForm
+from studymode.forms import (LoginForm, RegistrationForm, EventForm, ResetEmailForm,
+                             ResetPasswordForm, ResetUsernameForm)
 from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 import geocoder
@@ -69,7 +70,6 @@ def logout():
 def add_event():
     form = EventForm()
     if form.validate_on_submit():
-        print('validated')
         g = geocoder.ip('me')
         current_latitude, current_longitude = g.latlng[0], g.latlng[1]
         response = requests.get(
@@ -94,14 +94,53 @@ def events():
     events = Event.query.all()
     return render_template('events.html', title='Events', events=events)
 
-
 @app.route('/account_settings')
 @login_required
 def account_settings():
     return render_template('account_settings.html', title='Account Settings')
 
-
 @app.route('/account')
 @login_required
 def account():
     return render_template('account.html', title='Account')
+
+@app.route("/reset_password", methods=['GET','POST'])
+def reset_password():
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        temp = form.password.data.encode('utf-8')
+        hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
+        current_user.password = hashed_pw
+        db.session.commit()
+        flash('Your password has been updated! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html', title='Reset Password', form=form)
+
+@app.route("/reset_username", methods=['GET','POST'])
+def reset_username():
+    form = ResetUsernameForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        db.session.commit()
+        flash('Your username has been updated! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    user = User.query.filter_by(username=form.username.data).first()
+    if user:
+        flash('This username is taken. Please use a different username')
+    return render_template('reset_username.html', title='Reset Username', form=form)
+
+@app.route("/reset_email", methods=['GET','POST'])
+def reset_email():
+    form = ResetEmailForm()
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your email has been updated! You can now log in.', 'success')
+        return redirect(url_for('login'))
+    user = User.query.filter_by(email=form.email.data).first()
+    if user:
+        flash('This email is taken. Please use a different email')
+    return render_template('reset_email.html', title='Reset Email', form=form)
+
+
+
