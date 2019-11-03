@@ -1,5 +1,5 @@
 from studymode import app
-from flask import url_for, render_template
+from flask import url_for, render_template, flash, redirect
 import geocoder
 from studymode.map import draw_map
 from studymode.forms import LoginForm, RegistrationForm
@@ -41,7 +41,7 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(username=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
