@@ -101,7 +101,7 @@ def reset_password():
 def reset_username():
     form = ResetUsernameForm()
     if form.validate_on_submit():
-        User.username = form.username.data()
+        User.username = form.username.data
         db.session.commit()
         flash('Your username has been updated! You can now log in.', 'success')
         return redirect(url_for('login'))
@@ -111,7 +111,7 @@ def reset_username():
 def reset_email():
     form = ResetEmailForm()
     if form.validate_on_submit():
-        User.email = form.email.data()
+        User.email = form.email.data
         db.session.commit()
         flash('Your email has been updated! You can now log in.', 'success')
         return redirect(url_for('login'))

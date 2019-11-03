@@ -23,7 +23,7 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('That username is taken. Please use a different email')
+            raise ValidationError('That username is taken. Please use a different username')
 
 
     def validate_email(self, email):
@@ -71,8 +71,18 @@ class ResetUsernameForm(FlaskForm):
 
     submit = SubmitField('Reset Username')
 
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('That username is taken. Please use a different username')
+
 class ResetEmailForm(FlaskForm):
     email = StringField("Email",
                         validators=[DataRequired(), Email()])
 
     submit = SubmitField('Reset Email')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('That email is taken. Please use a different email')
