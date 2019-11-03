@@ -1,13 +1,13 @@
 import geocoder
 from flask_googlemaps import Map, icons
 from studymode.models import User, Event
+from flask import render_template
 
 
 def draw_map(events):
     g = geocoder.ip('me')
     latitude, longitude = g.latlng[0], g.latlng[1]
     markers_list = make_markers(events)
-    markers_list.append({'lat': 30.267153, 'lng': -97.743057, 'infobox': "Fam squad"})
     studymap = Map(
         identifier="study",
         varname="studymap",
@@ -26,7 +26,7 @@ def make_markers(events):
         event_details = {
             'lat': event.latitude,
             'lng': event.longitude,
-            'infobox': event.class_name
+            'infobox': render_template('marker.html', event=event)
         }
         markers.append(event_details)
     return markers
