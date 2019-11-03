@@ -51,7 +51,10 @@ def login():
             flash('try again fam', 'danger')
     return render_template('login.html', title='Log In', form=form)
 
-@app.route('/event')
+@app.route('/event',methods=['GET', 'POST'])
 def add_event():
     form = EventForm()
+    if form.validate_on_submit():
+        event_there = Event.query.filter_by()
+
     return render_template('add_event.html', title="Add Event", form=form)
