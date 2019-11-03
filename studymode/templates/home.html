@@ -1,13 +1,26 @@
-{% extends 'layout.html' %}
+<style>
+.button:focus
+{
+    font-size: 13px;
+    color:black;
+}
+</style>
 
+
+{% extends 'layout.html' %}
 {% block content %}
-    <div class="text-center max-auto">
-        <h1>Study Mode</h1>
-        <p>Welcome to Study Mode!</p>
-        <img src="https://i.imgur.com/0iYjBAj.png" class = .img-fluid.max_width:100%", title="source: major key alert" /></a>
+    <div class="container text-center max-auto">
+        <h1 class="pt-3">Study Mode</h1>
+        <p class="pt-3">Welcome to Study Mode!</p>
     </div>
-    <div class="row mx-auto col-xs-12 col-sm-8 col-md-6 col-lg-3 w-50 p-3">
-    <a href="{{ url_for('register')}}" class="btn btn-lg btn-primary btn-block text-uppercase" >Register</a>
-    <a href="{{ url_for('login')}}" class="btn btn-lg btn-danger btn-block text-uppercase">Login</a>
+    <img src = "https://i.imgur.com/0iYjBAj.png" class="row img-thumbnail border-0 pt-4" />
+{#    <div class="row | text-center | mx-auto | col-xs-12 col-sm-8 col-md-6 col-lg-3 | w-50 | p-5">#}
+{#        <a href="{{ url_for('register') }}" class="btn btn-lg btn-primary btn-block text-uppercase">Register</a>#}
+{#        <a href="{{ url_for('login') }}" class="btn btn-lg btn-danger btn-block text-uppercase">Login</a>#}
+{#    </div>#}
+{#    <div class="container">#}
+    <div class="btn-group | mx-auto | text-center | d-flex justify-content-center | mx-md-n5 | w-50 | row-3 | pt-5">
+        <div class="col px-md-5"><button class="p-3 btn-default btn-lg btn-block text-uppercase"><a class="text-secondary" href="{{ url_for('register')}}">Register</a></button></div>
+        <div class="col px-md-5"><button class="p-3 btn-default btn-lg btn-block text-uppercase"><a class="text-secondary" href="{{ url_for('login')}}">Login</a></button></div>
     </div>
 {% endblock content %}
