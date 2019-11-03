@@ -51,6 +51,7 @@ def login():
             flash('try again fam', 'danger')
     return render_template('login.html', title='Log In', form=form)
 
+
 @app.route('/event')
 def add_event():
     form = EventForm()
