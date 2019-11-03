@@ -32,13 +32,25 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ url_for('map') }}">Map <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('events') }}">Events</a>
-            </li>
-
+          <li class="nav-item">
+             <a class="nav-link" href="{{ url_for('map') }}" id = "map">Map <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('events')}}" id="events">Events</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Account
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="/account">Account Settings</a>
+              <a class="dropdown-item" href="{{ url_for('logout') }}">Log Out</a>
+            <!-- <a class="dropdown-item" href="#">Something else here</a>    -->
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
         </ul>
     </div>
     </li>
