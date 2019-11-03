@@ -20,6 +20,11 @@ def home():
 
 @app.route('/map')
 def map():
+
+    anotha = Event(latitude=30.284918, longitude=-97.734055,
+                   class_name='swiggityswaggity', user_id=1)
+    db.session.add(anotha)
+    db.session.commit()
     events = Event.query.all()
     studymap = draw_map(events)
     return render_template('map.html', studymap=studymap)
