@@ -9,7 +9,6 @@ import requests
 import json
 
 
-
 @app.route('/')
 def home():
     if current_user.is_authenticated:
@@ -20,11 +19,6 @@ def home():
 
 @app.route('/map')
 def map():
-
-    anotha = Event(latitude=30.284918, longitude=-97.734055,
-                   class_name='swiggityswaggity', user_id=1)
-    db.session.add(anotha)
-    db.session.commit()
     events = Event.query.all()
     studymap = draw_map(events)
     return render_template('map.html', studymap=studymap)
@@ -70,7 +64,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/event',methods=['GET', 'POST'])
+@app.route('/event', methods=['GET', 'POST'])
 def add_event():
     form = EventForm()
     if form.validate_on_submit():
@@ -81,10 +75,12 @@ def add_event():
 
     return render_template('add_event.html', title="Add Event", form=form)
 
+
 @app.route('/events')
 def events():
     events = Event.query.all()
-    response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
+    response = requests.get(
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=30.282998,-97.738470&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ")
     # g = response.json['results'][0]['formatted_address']
     print(response)
     json_data = json.loads(response.text)
@@ -96,6 +92,7 @@ def events():
 @app.route('/account_settings')
 def account_settings():
     return render_template('account_settings.html', title='Account Settings')
+
 
 @app.route('/account')
 def account():
