@@ -32,12 +32,13 @@ class Event(db.Model):
         return f"Event('{self.class_name}')"
 
 
-'''
 class Location(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
     event = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
-    longitude = db.Column(db.Float(precision=2), nullable=False)
-    latitude = db.Column(db.Float(precision=2), nullable=False)
+    longitude = db.Column(db.Float(), nullable=False)
+    latitude = db.Column(db.Float(), nullable=False)
     address = db.Column(db.String, nullable=False)
-    zipcode = db.Column(db.Integer, nullable=False)
+    zip_code = db.Column(db.Integer, nullable=False)
 
-'''
+    def __repr__(self):
+        return f"Event('{self.address}')"
