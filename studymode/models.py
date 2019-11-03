@@ -8,4 +8,6 @@ class Event(db.Model):
     location = db.relationship('Location', backref = 'Place', lazy = True)
     class_name = db.Column(db.String, nullable = False)
     private_event = db.Column(db.Boolean, nullable = False, default = False)
-    private_password = db.Column()
+    private_password = db.Column(db.String(20), default='password')
+    event_name = db.Column(db.String(20), nullable = False, default='Study session')
+    
