@@ -25,8 +25,7 @@ def make_markers(events):
         event_details = {
             'lat': event.latitude,
             'lng': event.longitude,
-            'title': event.class_name,
-            'infobox': "<b>Hello World</b>"
+            'infobox': event.class_name
         }
         markers.append(event_details)
     return markers
