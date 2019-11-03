@@ -12,9 +12,9 @@ import json
 @app.route('/')
 def home():
     if current_user.is_authenticated:
-        return render_template('home.html', title='Home')
+        return render_template('map.html', title='<Map>')
     else:
-        return redirect(url_for('register'))
+        return render_template('home.html', title='<Home>')
 
 
 @app.route('/map')
