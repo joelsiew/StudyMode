@@ -18,14 +18,14 @@ def draw_map(events):
     )
     return studymap
 
-
 def make_markers(events):
-    coords = []
+    markers = []
     for event in events:
         event_details = {
-            "lat": event.latitude,
-            "lng": event.longitude,
-            "title": event.class_name,
+            'lat': event.latitude,
+            'lng': event.longitude,
+            'title': event.class_name,
+            'infobox': "<b>Hello World</b>"
         }
-        coords.append(event_details)
-    return coords
+        markers.append(event_details)
+    return markers
