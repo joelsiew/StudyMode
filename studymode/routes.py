@@ -21,9 +21,13 @@ def register():
     return render_template('register.html', title="Registration", form=form)
 
 
-
-
 @app.route('/login')
 def login():
     form = LoginForm()
     return render_template('login.html', title="Login", form=form)
+
+
+@app.route('/events')
+def events():
+    event_form = EventForm()
+    return render_template('events.html', title="Events", form=event_form)
