@@ -3,8 +3,7 @@ import collections
 from studymode import app, db, bcrypt
 from flask import url_for, render_template, flash, redirect, request
 from studymode.map import draw_map
-from studymode.forms import (LoginForm, RegistrationForm, EventForm, ResetEmailForm,
-                             ResetPasswordForm, ResetUsernameForm)
+from studymode.forms import LoginForm, RegistrationForm, EventForm
 from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 import geocoder
