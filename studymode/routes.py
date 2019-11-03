@@ -31,6 +31,7 @@ def register():
     form = RegistrationForm()
     return render_template('register.html', title="Registration", form=form)
 
+
 @app.route('/login')
 def login():
     form = LoginForm()
