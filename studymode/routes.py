@@ -1,5 +1,5 @@
 from studymode import app, db, bcrypt
-from flask import url_for, render_template, redirect, flash
+from flask import url_for, render_template, redirect, flash, request
 from studymode.map import draw_map
 from studymode.models import User
 from studymode.forms import LoginForm, RegistrationForm, EventForm
