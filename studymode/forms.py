@@ -32,8 +32,8 @@ class LoginForm(FlaskForm):
 
 class EventForm(FlaskForm):
     course = StringField('Course', validators=[DataRequired(), Length(min=1)])
-    start_time_input = DateTimeLocalField(label='Enter Start Time', format='%Y-%m-%d%H:%M', validators=[DataRequired()])
-    end_time_input = DateTimeLocalField(label='Enter End Time', format='%Y-%m-%d%H:%M', validators=[DataRequired()])
+    start_time_input = DateTimeLocalField(label='Enter Start Time', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
+    end_time_input = DateTimeLocalField(label='Enter End Time', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 
