@@ -3,6 +3,7 @@ from wtforms import StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, EqualTo, Email, ValidationError
 from studymode.models import User
 from wtforms.fields.html5 import DateTimeLocalField
+from flask_login import current_user
 
 
 class RegistrationForm(FlaskForm):
@@ -36,19 +37,23 @@ class EventForm(FlaskForm):
     end_time_input = DateTimeLocalField(label='Enter End Time', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-
-class ResetAccountForm(FlaskForm):
+class UpdateAccountForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired()])
     confirm_password = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo('password')])
     username = StringField("Username", validators=[DataRequired(), Length(min=2, max=20)])
-    def validate_username(self, username):
-        user = User.query.filter_by(username=username.data).first()
-        if user:
-            raise ValidationError('Username already taken')
     email = StringField("Email", validators=[DataRequired(), Email()])
+    submit = SubmitField('Update Account Info')
+
+    def validate_username(self, username):
+        if username.data != current_user.username:
+            user = User.query.filter_by(username=username.data).first()
+            if user:
+                raise ValidationError('Username already taken')
+
     def validate_email(self, email):
-        user = User.query.filter_by(email=email.data).first()
-        if user:
-            raise ValidationError('Email already taken')
-    submit = SubmitField('Reset Account Info')
+        if email.data != current_user.email:
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError('Email already taken')
+
 
