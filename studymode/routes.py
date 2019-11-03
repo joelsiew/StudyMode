@@ -1,7 +1,7 @@
 import collections
 
 from studymode import app, db, bcrypt
-from flask import url_for, render_template, flash, redirect, request
+from flask import url_for, render_template, flash, redirect, request, abort
 from studymode.map import draw_map
 from studymode.forms import LoginForm, RegistrationForm, EventForm
 from studymode.models import User, Event
@@ -9,7 +9,9 @@ from flask_login import login_user, current_user, logout_user, login_required, U
 import geocoder
 import requests
 import json
-
+import pytz
+from tzlocal import get_localzone
+from datetime import datetime, timezone
 
 @app.route('/')
 def home():
@@ -66,10 +68,25 @@ def logout():
     return redirect(url_for('home'))
 
 
+def get_dt(yr, mo, day, hr, min):
+    dt = str()
+    h = 12 if hr % 12 == 0 else hr
+    dt += str(yr) + '-' + str(mo) + '-' + str(day)
+    dt += 'T' + str(h) + ':' + str(min)
+    dt_obj = datetime.strptime(dt, '%Y-%m-%dT%H:%M')
+    return dt_obj
+
+
 @app.route('/event', methods=['GET', 'POST'])
 @login_required
 def add_event():
     form = EventForm()
+    if request.method == 'GET':
+        x = datetime.now()
+        dt_obj = get_dt(x.year, x.month, x.day, x.hour, x.minute)
+        form.start_time_input.data = dt_obj
+        form.end_time_input.data = dt_obj
+
     if form.validate_on_submit():
         g = geocoder.ip('me')
         current_latitude, current_longitude = g.latlng[0], g.latlng[1]
@@ -144,4 +161,14 @@ def reset_email():
     return render_template('reset_email.html', title='Reset Email', form=form)
 
 
+@app.route("/delete_event<event_id>", methods=['POST'])
+@login_required
+def delete_event(event_id):
+    event = Event.query.get_or_404(event_id)
+    if event.author != current_user:
+        abort(403)
+    db.session.delete(event)
+    db.session.commit()
+    flash('Your event has been deleted!', 'success')
+    return redirect(url_for('home'))
 
