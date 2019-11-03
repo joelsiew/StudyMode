@@ -15,11 +15,6 @@ def home():
         return redirect(url_for('register'))
 
 
-@app.route('/')
-def opening():
-    return render_template('opening_page.html');
-
-
 @app.route('/map')
 def map():
     events = Event.query.all()
