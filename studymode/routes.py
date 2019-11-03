@@ -1,6 +1,7 @@
 from studymode import app
 from flask import url_for, render_template
 from flask_googlemaps import Map, icons
+from .forms import RegistrationForm, LoginForm, EventForm
 import geocoder
 
 
@@ -27,9 +28,11 @@ def draw_map():
 
 @app.route('/register')
 def register():
-    return render_template('register.html')
-
+    form = RegistrationForm()
+    return render_template('register.html', title="Registration", form=form)
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    return render_template('login.html', title="Login", form=form)
+
