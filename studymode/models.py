@@ -29,10 +29,11 @@ class Event(db.Model):
 
 
 class Location(db.Model):
-    longitude = db.Column(db.Float(min=-180, max=180, nullable=False))
-    latitude = db.Column(db.Float(min=-90, max=90), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    longitude = db.Column(db.Float, nullable=False))
+    latitude = db.Column(db.Float, nullable=False)
     address = db.Column(db.String, nullable=False)
-    zip_code = db.Column(db.Integer(min=00000, max=99999), nullable=False)
+    zip_code = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return f"Location('{self.longitude}', '{self.latitude}', '{self.address}', '{self.zip_code})"
