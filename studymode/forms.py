@@ -20,7 +20,7 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Username',
+    email = StringField('Email',
                            validators=[DataRequired(), Length(min=2, max=20)])
     password = PasswordField('Password',
                              validators=[DataRequired(), Length(min=2, max=20)])
