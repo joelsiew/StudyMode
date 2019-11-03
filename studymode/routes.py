@@ -8,14 +8,16 @@ from flask_login import login_user, current_user, logout_user, login_required, U
 
 @app.route('/')
 def home():
-    people = User.query.all()
-    return render_template('home.html', people=people)
+    if current_user.is_authenticated:
+        return render_template('home.html', title='Home')
+    else:
+        return redirect(url_for('register'))
 
 
 @app.route('/map')
 def map():
     events = Event.query.all()
-    studymap = draw_map()
+    studymap = draw_map(events)
     return render_template('map.html', studymap=studymap)
 
 
@@ -49,7 +51,8 @@ def login():
             flash('try again fam', 'danger')
     return render_template('login.html', title='Log In', form=form)
 
-@app.route('/add_event')
+
+@app.route('/event')
 def add_event():
     form = EventForm()
     return render_template('add_event.html', title="Add Event", form=form)
