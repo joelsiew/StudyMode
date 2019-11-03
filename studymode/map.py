@@ -1,6 +1,5 @@
 import geocoder
-from flask_googlemaps import Map, icons
-from studymode.models import User, Event
+from flask_googlemaps import Map
 from flask import render_template
 import requests
 import json
@@ -27,7 +26,6 @@ def make_markers(events):
         response = requests.get(
             "https://maps.googleapis.com/maps/api/geocode/json?latlng={},{}&key=AIzaSyBq_qn6etPVIO8OZVTvPHtk7JMCriN04wQ".format(event.latitude, event.longitude))
         json_data = json.loads(response.text)
-        print(json_data['results'][0]['formatted_address'])
         event_details = {
             'lat': event.latitude,
             'lng': event.longitude,

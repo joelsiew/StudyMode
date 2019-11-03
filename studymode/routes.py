@@ -80,8 +80,6 @@ def add_event():
         addy = json_data['results'][0]['formatted_address']
         temp_start = form.start_time_input.data.strftime('%Y-%m-%dT%H:%M')
         temp_end = form.end_time_input.data.strftime('%Y-%m-%dT%H:%M')
-        print(temp_start)
-        print(temp_end)
         event = Event(latitude=current_latitude, longitude=current_longitude, class_name=form.course.data,
                       user_id=current_user.id, start_time=temp_start, end_time=temp_end, address=addy)
         db.session.add(event)
