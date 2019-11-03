@@ -1,8 +1,8 @@
 from studymode import app
-from flask import url_for, render_template
+from flask import url_for, render_template, flash, redirect
 import geocoder
 from studymode.map import draw_map
-from studymode.forms import LoginForm, RegistrationForm
+from studymode.forms import LoginForm, RegistrationForm, EventForm
 from studymode.models import User, Event
 from flask_login import login_user, current_user, logout_user, login_required, UserMixin
 
@@ -41,7 +41,7 @@ def login():
         return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+        user = User.query.filter_by(username=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
@@ -50,3 +50,7 @@ def login():
             flash('try again fam', 'danger')
     return render_template('login.html', title='Log In', form=form)
 
+@app.route('/event')
+def add_event():
+    form = EventForm()
+    return render_template('add_event.html', title="Add Event", form=form)
