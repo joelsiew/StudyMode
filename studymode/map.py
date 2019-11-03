@@ -23,10 +23,12 @@ def draw_map(events):
 def make_markers(events):
     markers = []
     for event in events:
+        g = geocoder.google([event.latitude, event.longitude], method='reverse')
+        location = g.street
         event_details = {
             'lat': event.latitude,
             'lng': event.longitude,
-            'infobox': render_template('marker.html', event=event)
+            'infobox': render_template('marker.html', event=event, location=location)
         }
         markers.append(event_details)
     return markers
