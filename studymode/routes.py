@@ -45,6 +45,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
+        print(user.password)
+        print(form.password.data)
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
@@ -76,9 +78,9 @@ def events():
     events = Event.query.all()
     return render_template('events.html', title='Events', events=events)
 
-@app.route('/about')
-def about():
-    return render_template('about.html', title='About')
+@app.route('/account_settings')
+def account_settings():
+    return render_template('account_settings.html', title='Account Settings')
 
 @app.route('/account')
 def account():
