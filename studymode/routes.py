@@ -67,7 +67,7 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/event',methods=['GET', 'POST'])
+@app.route('/event', methods=['GET', 'POST'])
 def add_event():
     form = EventForm()
     if form.validate_on_submit():
@@ -77,6 +77,7 @@ def add_event():
                       longitude=current_longitude, course=form.course.data, user_id=current_user.id)
 
     return render_template('add_event.html', title="Add Event", form=form)
+
 
 @app.route('/events')
 def events():
