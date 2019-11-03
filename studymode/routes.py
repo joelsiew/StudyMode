@@ -89,7 +89,7 @@ def account():
 def reset_password():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    form = ResetPasswordForm
+    form = ResetPasswordForm()
     if form.validate_on_submit():
         temp = form.password.data.encode('utf-8')
         hashed_pw = bcrypt.generate_password_hash(password=temp).decode('utf-8')
@@ -103,7 +103,7 @@ def reset_password():
 def reset_username():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    form = ResetUsernameForm
+    form = ResetUsernameForm()
     if form.validate_on_submit():
         User.username = form.username.data()
         db.session.commit()
@@ -115,7 +115,7 @@ def reset_username():
 def reset_email():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    form = ResetEmailForm
+    form = ResetEmailForm()
     if form.validate_on_submit():
         User.email = form.email.data()
         db.session.commit()
