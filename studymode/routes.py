@@ -72,7 +72,7 @@ def add_event():
         g = geocoder.ip('me')
         current_latitude, current_longitude = g.latlng[0], g.latlng[1]
         event = Event(start_time=form.start_time, end_time=form.end_time, latitude=current_latitude,
-                      longitude=current_longitude, course=form.course.data, user_id=current_user.id)
+                      longitude=current_longitude, class_name=form.course.data, user_id=current_user.id)
 
     return render_template('add_event.html', title="Add Event", form=form)
 
