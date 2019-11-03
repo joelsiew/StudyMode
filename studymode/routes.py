@@ -8,8 +8,10 @@ from flask_login import login_user, current_user, logout_user, login_required, U
 
 @app.route('/')
 def home():
-    people = User.query.all()
-    return render_template('home.html', people=people)
+    if current_user.is_authenticated:
+        return render_template('home.html', title='Home')
+    else:
+        return redirect(url_for('register'))
 
 
 @app.route('/map')
@@ -49,7 +51,30 @@ def login():
             flash('try again fam', 'danger')
     return render_template('login.html', title='Log In', form=form)
 
+
 @app.route('/event')
 def add_event():
     form = EventForm()
     return render_template('add_event.html', title="Add Event", form=form)
+
+@app.route('/events')
+def events():
+    #events = Event.query.all()
+    test_events = [
+        {
+            'start_time': '8:00',
+            'end_time': '10:00',
+            'class_name': 'EE302'
+        },
+        {
+            'start_time': '10:00',
+            'end_time': '12:00',
+            'class_name': 'EE411'
+        },
+        {
+            'start_time': '12:00',
+            'end_time': '2:00',
+            'class_name': 'EE427J'
+        }
+    ]
+    return render_template('events.html', title='Events', test_events=test_events)
